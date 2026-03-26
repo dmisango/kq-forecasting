@@ -1,0 +1,10 @@
+artifacts/
+artifs_keras/
+logs/
+Python311/
+.vscode/
+bookings.xlsx
+*.pkl
+*.keras
+__pycache__/
+*.pyc
