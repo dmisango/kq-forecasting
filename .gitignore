@@ -8,3 +8,4 @@ bookings.xlsx
 *.keras
 __pycache__/
 *.pyc
+venv/
