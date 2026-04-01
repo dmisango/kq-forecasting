@@ -751,7 +751,7 @@ def main():
         #     "margin:0;'>Price Forecasting</p>",
         #     unsafe_allow_html=True
         # )
-        st.image("C:\kq-forecasting\kenya_airways_logo.png", use_container_width=True)
+        st.image("kenya_airways_logo.png", use_container_width=True)
     
         st.markdown("---")
 
