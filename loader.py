@@ -16,12 +16,14 @@ def download_if_missing():
 
     for local_path, file_id in files.items():
         if not os.path.exists(local_path):
-            os.makedirs(os.path.dirname(local_path), exist_ok=True)
-            print(f"Downloading {local_path}...")
-            gdown.download(
-                f"https://drive.google.com/uc?id={file_id}",
-                local_path,
-                quiet=False,
-                fuzzy=True
-            )
-            print(f"✓ {local_path} ready")
+            dir_name = os.path.dirname(local_path)
+            if dir_name:
+                os.makedirs(dir_name, exist_ok=True)
+                print(f"Downloading {local_path}...")
+                gdown.download(
+                    f"https://drive.google.com/uc?id={file_id}",
+                    local_path,
+                    quiet=False,
+                    fuzzy=True
+                )
+                print(f"✓ {local_path} ready")
