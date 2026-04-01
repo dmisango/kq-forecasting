@@ -29,7 +29,7 @@ RUN
     streamlit run dashboard.py
 
     Environment variable overrides:
-        KQ_API_BASE         Forecasting API base URL (default: http://localhost:8000)
+        KQ_API_BASE         Forecasting API base URL (default: https://kq-forecasting.onrender.com)
         KQ_ARTIFACT_DIR     Path to model artifacts  (default: ./artifacts)
 
 DEPENDENCIES
@@ -59,7 +59,7 @@ import matplotlib.colors as mcolors
 # All data is fetched through the REST API (api.py), which is the single
 # controlled access layer between the database and all consumers.
 # Set KQ_API_BASE to point at a remote server in production.
-API_BASE     = os.getenv('KQ_API_BASE', 'http://localhost:8000')
+API_BASE     = os.getenv('KQ_API_BASE', 'https://kq-forecasting.onrender.com')
 ARTIFACT_DIR = Path(os.getenv('KQ_ARTIFACT_DIR', 'artifacts'))
 
 MODEL_COLOURS = {
