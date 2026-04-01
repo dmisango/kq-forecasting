@@ -1137,8 +1137,8 @@ def main():
         st.dataframe(styled_r, use_container_width=True, hide_index=True)
 
         # Improvement over naïve
-        naive_mae  = float(RESULTS.loc[RESULTS['Model']=='Naïve (Seasonal)', 'MAE'])
-        naive_mape = float(RESULTS.loc[RESULTS['Model']=='Naïve (Seasonal)', 'MAPE'])
+        naive_mae  = float(RESULTS.loc[RESULTS['Model']=='Naïve (Seasonal)', 'MAE'].iloc[0])
+        naive_mape = float(RESULTS.loc[RESULTS['Model']=='Naïve (Seasonal)', 'MAPE'].iloc[0])
         st.caption(
             f"**Baseline (Naïve):** MAE = {naive_mae:.2f} USD, MAPE = {naive_mape:.1f}%. "
             f"Standalone LSTM achieves a "
