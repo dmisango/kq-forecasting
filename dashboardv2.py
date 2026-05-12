@@ -230,8 +230,15 @@ def fetch_forecasts(route: str, horizon: int, models: list) -> pd.DataFrame:
 
 
 @st.cache_data(ttl=300)
-def fetch_actuals(route: str, n_days: int = 90) -> pd.DataFrame:
-    data = _api_get("/data/actuals", {"route": route, "limit": n_days})
+def fetch_actuals(route: str, n_days: int = 90,
+                  start_date: str = None, end_date: str = None) -> pd.DataFrame:
+    params = {"route": route, "limit": n_days}
+    if start_date:
+        params["start_date"] = start_date
+    if end_date:
+        params["end_date"] = end_date
+
+    data = _api_get("/data/actuals", params)
     if not data or "records" not in data:
         return pd.DataFrame()
     df = pd.DataFrame(data["records"])
@@ -793,6 +800,23 @@ def main():
             fc_end_date   = default_end
             history_days  = 90
         forecast_horizon_days = (fc_end_date - fc_start_date).days + 1
+
+        st.markdown("**Actuals Overlay (Optional)**")
+        show_actuals_range = st.checkbox("Specify actuals date range", value=False)
+        
+        if show_actuals_range:
+            actuals_range = st.date_input(
+                "Actuals date range",
+                value=(date(2021, 1, 1), date(2021, 1, 31)),
+                label_visibility='collapsed',
+            )
+            if isinstance(actuals_range, (list, tuple)) and len(actuals_range) == 2:
+                act_start = actuals_range[0].isoformat()
+                act_end   = actuals_range[1].isoformat()
+            else:
+                act_start = act_end = None
+        else:
+            act_start = act_end = None
 
         # Metric selector (compact)
         st.markdown("**Performance Metric**")
