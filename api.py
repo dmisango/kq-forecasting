@@ -804,21 +804,36 @@ def pipeline_runs(
 def data_actuals(
     route:  str = Query("ALL", description="Route code, e.g. NBO-MBA"),
     limit:  int = Query(90,  ge=1, le=1000, description="Max rows to return"),
+    start_date: str = Query(None, description="ISO date e.g. 2021-01-01"),
+    end_date:   str = Query(None, description="ISO date e.g. 2021-01-31"),
     conn:   sqlite3.Connection = Depends(get_db)
 ):
     try:
+        filters = ["(route = ? OR ? = 'ALL')"]
+        params  = [route, route]
+
+        if start_date:
+            filters.append("departure_date >= ?")
+            params.append(start_date)
+        if end_date:
+            filters.append("departure_date <= ?")
+            params.append(end_date)
+
+        params.append(limit)
+        where = " AND ".join(filters)
+
         df = _query(conn,
-            "SELECT departure_date, actual_price, booking_window, "
-            "departure_month FROM actuals "
-            "WHERE (route = ? OR ? = 'ALL') "
-            "ORDER BY departure_date DESC LIMIT ?",
-            (route, route, limit))
+            f"SELECT departure_date, actual_price, booking_window, "
+            f"departure_month FROM actuals "
+            f"WHERE {where} "
+            f"ORDER BY departure_date ASC LIMIT ?",   # ASC so chart renders left→right
+            tuple(params))
+
         if df.empty:
             return {"route": route, "records": []}
         df = df.where(pd.notna(df), None)
         return {"route": route, "records": df.to_dict(orient="records")}
     except Exception:
-        # actuals table may not exist yet if pipeline has never run
         return {"route": route, "records": []}
 
 
