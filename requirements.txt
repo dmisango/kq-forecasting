@@ -11,6 +11,6 @@ plotly
 matplotlib
 seaborn
 openpyxl
-gdown
+gdown>=5.0.0
 fastapi
 uvicorn
