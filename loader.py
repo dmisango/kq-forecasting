@@ -23,7 +23,6 @@ def download_if_missing():
                 gdown.download(
                     f"https://drive.google.com/uc?id={file_id}",
                     local_path,
-                    quiet=False,
-                    fuzzy=True
+                    quiet=False
                 )
                 print(f"✓ {local_path} ready")
