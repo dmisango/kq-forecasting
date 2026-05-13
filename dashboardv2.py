@@ -1526,10 +1526,11 @@ def main():
         st.markdown("---")
 
         # ── 4. Live actuals breakdown (if pipeline has run) ────────────────────
-        if not act_df.empty and 'booking_window' in act_df.columns:
+        if (not act_df.empty and 'booking_window' in act_df.columns and act_df['booking_window'].notna().any()):
             st.subheader("Live Actuals — Price by Booking Window")
             st.caption("Computed from actuals stored by the pipeline in forecasting.db.")
             def bw_band(d):
+                if d is None or pd.isna(d): return 'Unknown'   # ← handles NULL
                 if d <= 7:   return 'Last Minute (0–7d)'
                 if d <= 14:  return 'Short Advance (8–14d)'
                 if d <= 30:  return 'Medium Advance (15–30d)'
@@ -1537,6 +1538,8 @@ def main():
                 return 'Very Long (60d+)'
             act_live = act_df.copy()
             act_live['band'] = act_live['booking_window'].apply(bw_band)
+# Skip Unknown bands from the table — they add no value
+act_live = act_live[act_live['band'] != 'Unknown']
             live_agg = (act_live.groupby('band')['actual_price']
                         .agg(Mean='mean', Std='std', Count='count')
                         .round(2).reset_index())
