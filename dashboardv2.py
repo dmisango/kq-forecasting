@@ -777,13 +777,13 @@ def main():
 
         # Calendar date range picker (max 30 days)
         st.markdown("**Forecast Period**")
-        today      = date.today()
-        default_start = today + timedelta(days=1)
-        default_end   = today + timedelta(days=30)
+        today         = date.today()
+        default_start = date(2021, 1, 1)   # ← anchor to Jan 2021
+        default_end   = date(2021, 1, 31)  # ← anchor to Jan 2021
         date_range = st.date_input(
             "Select forecast dates",
             value=(default_start, default_end),
-            min_value=today,
+            min_value=date(2016, 1, 1),    # ← allow historical dates
             max_value=today + timedelta(days=365),
             label_visibility='collapsed',
         )
@@ -794,7 +794,7 @@ def main():
             if delta > 30:
                 st.warning("⚠️ Maximum forecast period is 30 days. End date adjusted.")
                 fc_end_date = fc_start_date + timedelta(days=30)
-            history_days = max(30, delta * 3)   # show 3× history relative to horizon
+            history_days = max(30, delta * 3)
         else:
             fc_start_date = default_start
             fc_end_date   = default_end
@@ -807,7 +807,9 @@ def main():
         if show_actuals_range:
             actuals_range = st.date_input(
                 "Actuals date range",
-                value=(date(2021, 1, 1), date(2021, 1, 31)),
+                value=(date(2021, 1, 1), date(2021, 1, 31)),  # already correct
+                min_value=date(2016, 1, 1),                    # ← add this so past dates are selectable
+                max_value=today + timedelta(days=365),
                 label_visibility='collapsed',
             )
             if isinstance(actuals_range, (list, tuple)) and len(actuals_range) == 2:
@@ -839,7 +841,7 @@ def main():
 
     # ── Fetch data through API (live) or fall back to demo data ──────────────
     if api_reachable:
-        fc_df   = fetch_forecasts(route, history_days, sel_models)
+        fc_df  = fetch_forecasts(route, forecast_horizon_days, sel_models) 
           # Use explicit date range if set, otherwise fall back to last n_days
         if act_start and act_end:
             act_df = fetch_actuals(route, n_days=1000,        # large limit so range isn't truncated
