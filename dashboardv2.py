@@ -705,6 +705,7 @@ def render_pipeline_status() -> None:
 # MAIN DASHBOARD
 # ═════════════════════════════════════════════════════════════════════════════
 def main():
+    st.cache_data.clear() 
     # ── Header ────────────────────────────────────────────────────────────────
     st.markdown("""
     <div style="background:#ffffff;border-left:5px solid #CC0000;
@@ -778,12 +779,12 @@ def main():
         # Calendar date range picker (max 30 days)
         st.markdown("**Forecast Period**")
         today         = date.today()
-        default_start = date(2021, 1, 1)   # ← anchor to Jan 2021
-        default_end   = date(2021, 1, 31)  # ← anchor to Jan 2021
+        default_start = date(2021, 1, 1)    # ← was: today + timedelta(days=1)
+        default_end   = date(2021, 1, 31)   # ← was: today + timedelta(days=30)
         date_range = st.date_input(
             "Select forecast dates",
             value=(default_start, default_end),
-            min_value=date(2016, 1, 1),    # ← allow historical dates
+            min_value=date(2016, 1, 1),     # ← allow historical dates
             max_value=today + timedelta(days=365),
             label_visibility='collapsed',
         )
@@ -802,13 +803,12 @@ def main():
         forecast_horizon_days = (fc_end_date - fc_start_date).days + 1
 
         st.markdown("**Actuals Overlay (Optional)**")
-        show_actuals_range = st.checkbox("Specify actuals date range", value=False)
-        
+        show_actuals_range = st.checkbox("Specify actuals date range", value=True)
         if show_actuals_range:
             actuals_range = st.date_input(
                 "Actuals date range",
-                value=(date(2021, 1, 1), date(2021, 1, 31)),  # already correct
-                min_value=date(2016, 1, 1),                    # ← add this so past dates are selectable
+                value=(date(2021, 1, 1), date(2021, 1, 31)),  # ← sync with forecast
+                min_value=date(2016, 1, 1),
                 max_value=today + timedelta(days=365),
                 label_visibility='collapsed',
             )
