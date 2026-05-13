@@ -89,6 +89,8 @@ DEPENDENCIES
     statsmodels  — ARIMA refitting for custom endpoint
 ================================================================================
 """
+from loader import download_if_missing
+download_if_missing()
 
 import os
 import sqlite3
