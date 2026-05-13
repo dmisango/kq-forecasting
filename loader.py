@@ -14,15 +14,22 @@ def download_if_missing():
         "bookings.xlsx":                         "1N5HoxsP3ExaKV3upt3fClg4Fxh-uJChV",
     }
 
+    os.makedirs("artifacts", exist_ok=True)
+
     for local_path, file_id in files.items():
         if not os.path.exists(local_path):
-            dir_name = os.path.dirname(local_path)
-            if dir_name:
-                os.makedirs(dir_name, exist_ok=True)
-                print(f"Downloading {local_path}...")
-                gdown.download(
+            print(f"Downloading {local_path} ...")
+            try:
+                result = gdown.download(
                     f"https://drive.google.com/uc?id={file_id}",
                     local_path,
                     quiet=False
                 )
-                print(f"✓ {local_path} ready")
+                if result:
+                    print(f"  ✓ {local_path} ready")
+                else:
+                    print(f"  ✗ FAILED: {local_path} — check Drive sharing permissions")
+            except Exception as e:
+                print(f"  ✗ ERROR downloading {local_path}: {e}")
+        else:
+            print(f"  ✓ {local_path} already exists — skipping")
