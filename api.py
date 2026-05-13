@@ -452,6 +452,8 @@ app = FastAPI(
 )
 
 
+from loader import download_if_missing
+
 @app.on_event("startup")
 async def _startup():
     """
