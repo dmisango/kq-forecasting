@@ -705,7 +705,7 @@ def render_pipeline_status() -> None:
 # MAIN DASHBOARD
 # ═════════════════════════════════════════════════════════════════════════════
 def main():
-    st.cache_data.clear() 
+    # st.cache_data.clear() 
     # ── Header ────────────────────────────────────────────────────────────────
     st.markdown("""
     <div style="background:#ffffff;border-left:5px solid #CC0000;
