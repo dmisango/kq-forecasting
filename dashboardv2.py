@@ -1538,8 +1538,8 @@ def main():
                 return 'Very Long (60d+)'
             act_live = act_df.copy()
             act_live['band'] = act_live['booking_window'].apply(bw_band)
-# Skip Unknown bands from the table — they add no value
-act_live = act_live[act_live['band'] != 'Unknown']
+            # Skip Unknown bands from the table — they add no value
+            act_live = act_live[act_live["band"] != "Unknown"]
             live_agg = (act_live.groupby('band')['actual_price']
                         .agg(Mean='mean', Std='std', Count='count')
                         .round(2).reset_index())
