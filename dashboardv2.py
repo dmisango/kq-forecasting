@@ -807,7 +807,7 @@ def main():
         if show_actuals_range:
             actuals_range = st.date_input(
                 "Actuals date range",
-                value=(date(2021, 1, 1), date(2021, 1, 31)),  # ← sync with forecast
+                value=(date(2020, 12, 1), date(2021, 1, 31)),  # ← sync with forecast
                 min_value=date(2016, 1, 1),
                 max_value=today + timedelta(days=365),
                 label_visibility='collapsed',
