@@ -841,14 +841,17 @@ def main():
 
     # ── Fetch data through API (live) or fall back to demo data ──────────────
     if api_reachable:
-        fc_df  = fetch_forecasts(route, forecast_horizon_days, sel_models) 
+        fc_df  = fetch_forecasts(route, forecast_horizon_days, sel_models)
+        act_df = fetch_actuals(route, n_days=1000,
+                           start_date=act_start,
+                           end_date=act_end)
           # Use explicit date range if set, otherwise fall back to last n_days
-        if act_start and act_end:
-            act_df = fetch_actuals(route, n_days=1000,        # large limit so range isn't truncated
-                                   start_date=act_start,
-                                   end_date=act_end)
-        else:
-            act_df = fetch_actuals(route, n_days=history_days)
+        # if act_start and act_end:
+        #     act_df = fetch_actuals(route, n_days=1000,        # large limit so range isn't truncated
+        #                            start_date=act_start,
+        #                            end_date=act_end)
+        # else:
+        #     act_df = fetch_actuals(route, n_days=history_days)
         
         perf_ov = fetch_performance(route, 'overall')
         # act_df  = fetch_actuals(route, history_days)
