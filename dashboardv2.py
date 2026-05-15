@@ -1411,25 +1411,25 @@ def main():
 
         # ── Thesis booking window breakdown (from Section 3.3 / known results) ─
         BW_DATA = pd.DataFrame([
-            {'Window':'Last Minute (0–7d)',      'Avg Price (USD)':418.2, 'Pct of Bookings':8.3,
+            {'Window':'Last Minute (0–7d)',      'Avg Price (USD)':55.31, 'Pct of Bookings':53.9,
              'ARIMA MAPE':52.1, 'LSTM MAPE':24.8, 'Hybrid MAPE':31.4},
-            {'Window':'Short Advance (8–14d)',   'Avg Price (USD)':385.6, 'Pct of Bookings':12.7,
+            {'Window':'Short Advance (8–14d)',   'Avg Price (USD)':59.55, 'Pct of Bookings':14.5,
              'ARIMA MAPE':41.3, 'LSTM MAPE':20.1, 'Hybrid MAPE':26.2},
-            {'Window':'Medium Advance (15–30d)', 'Avg Price (USD)':357.4, 'Pct of Bookings':28.5,
+            {'Window':'Medium Advance (15–30d)', 'Avg Price (USD)':55.47, 'Pct of Bookings':12.5,
              'ARIMA MAPE':34.8, 'LSTM MAPE':17.6, 'Hybrid MAPE':22.9},
-            {'Window':'Long Advance (31–60d)',   'Avg Price (USD)':331.8, 'Pct of Bookings':31.2,
+            {'Window':'Long Advance (31–60d)',   'Avg Price (USD)':45.78, 'Pct of Bookings':8.9,
              'ARIMA MAPE':31.2, 'LSTM MAPE':15.9, 'Hybrid MAPE':19.7},
-            {'Window':'Very Long (60d+)',         'Avg Price (USD)':312.5, 'Pct of Bookings':19.3,
+            {'Window':'Very Long (60d+)',         'Avg Price (USD)':38.26, 'Pct of Bookings':10.1,
              'ARIMA MAPE':28.6, 'LSTM MAPE':14.3, 'Hybrid MAPE':17.8},
         ])
 
         SEASON_DATA = pd.DataFrame([
-            {'Season':'High (Jan–Feb, Jul–Aug, Nov–Dec)', 'Avg Price (USD)':412.3,
-             'Pct of Days':41.7, 'ARIMA MAPE':38.2, 'LSTM MAPE':20.3, 'Hybrid MAPE':25.1},
-            {'Season':'Shoulder (Mar, Jun, Sep–Oct)',      'Avg Price (USD)':361.7,
-             'Pct of Days':33.3, 'ARIMA MAPE':33.9, 'LSTM MAPE':17.8, 'Hybrid MAPE':22.4},
-            {'Season':'Low (Apr–May)',                     'Avg Price (USD)':298.4,
-             'Pct of Days':25.0, 'ARIMA MAPE':29.1, 'LSTM MAPE':14.6, 'Hybrid MAPE':18.2},
+            {'Season':'High (Jan–Feb, Jul–Aug, Nov–Dec)', 'Avg Price (USD)':53.70,
+             'Pct of Days':52.3, 'ARIMA MAPE':38.2, 'LSTM MAPE':20.3, 'Hybrid MAPE':25.1},
+            {'Season':'Shoulder (Mar, Jun, Sep–Oct)',      'Avg Price (USD)':52.07,
+             'Pct of Days':33.1, 'ARIMA MAPE':33.9, 'LSTM MAPE':17.8, 'Hybrid MAPE':22.4},
+            {'Season':'Low (Apr–May)',                     'Avg Price (USD)':55.12,
+             'Pct of Days':14.7, 'ARIMA MAPE':29.1, 'LSTM MAPE':14.6, 'Hybrid MAPE':18.2},
         ])
 
         # ── 1. Booking window price bar ────────────────────────────────────────
@@ -1444,15 +1444,9 @@ def main():
             ))
             fig_bw_price.update_layout(
                 yaxis_title='Average Price (USD)', template='plotly_white',
-                height=360, xaxis_tickangle=-30,
-                margin=dict(t=20,b=90,l=60,r=20),
-                yaxis=dict(
-                    range=[
-                        BW_DATA['Avg Price (USD)'].min() * 0.9,
-                        BW_DATA['Avg Price (USD)'].max() * 1.12
-                    ]
-                )
-            )
+                height=120, xaxis_tickangle=-30,
+                margin=dict(t=20,b=90,l=60,r=20))
+            st.plotly_chart(fig_bw_price, use_container_width=True))
 
         with col_bw2:
             st.subheader("Booking Volume Distribution")
