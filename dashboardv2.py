@@ -1445,8 +1445,14 @@ def main():
             fig_bw_price.update_layout(
                 yaxis_title='Average Price (USD)', template='plotly_white',
                 height=360, xaxis_tickangle=-30,
-                margin=dict(t=20,b=90,l=60,r=20))
-            st.plotly_chart(fig_bw_price, use_container_width=True)
+                margin=dict(t=20,b=90,l=60,r=20),
+                yaxis=dict(
+                    range=[
+                        BW_DATA['Avg Price (USD)'].min() * 0.9,
+                        BW_DATA['Avg Price (USD)'].max() * 1.12
+                    ]
+                )
+            )
 
         with col_bw2:
             st.subheader("Booking Volume Distribution")
