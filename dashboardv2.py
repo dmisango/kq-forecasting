@@ -1444,7 +1444,7 @@ def main():
             ))
             fig_bw_price.update_layout(
                 yaxis_title='Average Price (USD)', template='plotly_white',
-                height=120, xaxis_tickangle=-30,
+                height=360, xaxis_tickangle=-30,
                 margin=dict(t=20,b=90,l=60,r=20))
             st.plotly_chart(fig_bw_price, use_container_width=True)
 
